@@ -1,50 +1,56 @@
 #include <stdio.h>
-#include <time.h>
 
-float pfabs(float x) { if (x < 0.0f) { return x + x*2.0f; } else { return x; } }
+// Primitive Float ABsolute Value
+float pfabs(float x) { if (x < 0.0f) { return x + x*-2.0f; } else { return x; } }
 
+// Integer POWer
 float ipow(float x, int n) {
   unsigned int i;
   float y = (n < 0) ? 1.0f/x : x;
   float result = 1.0f;
-  for (i = 0; i < pfabs(n); i++) { y *= y; }
+  for (i = 0; i < pfabs(n); i++) { result *= y; }
   return result;
 }
 
-float nsqrt(float a) { // Newton's Method
+unsigned long long int factorial(int x) {
+  if (x > 20) { return 0; }
+  /* Numbers over 20 exceed the 64 bit unsigned integer's maximum value.
+    0! will return 1, so by returning 0 a programmer will [have to]
+    know that they inputted an unsupported value. */
+  unsigned long long int result = 1;
+  unsigned short int i;
+  for (i = 0; i < x; i++) {
+    result *= (x - i);
+  }
+  return result;
+}
+
+// Newton's method SQuare RooT
+float nsqrt(float a) {
   if (a == 0.0f) { return 0.0f; } else if (a < 0.0f) { return -1.0f; }
   unsigned short int i;
-  float x = (1 + 3.0f*a)/(3.0f + a);
-  //x = (x*x*x + 3.0f*a*x)/(3.0f*x*x + a);
-  // A single iteration of Halley's Method in order to get a better approximate
-  for (i = 0; i < 16; i++)
-  {
+  /* A single iteration of Halley's Method where the initial
+    guess is 1 in order to get a better approximate */
+  float x = (1.0f + 3.0f*a)/(3.0f + a);
+  for (i = 0; i < 16; i++) {
     x = 0.5f * ( x + (a/x) );
-    //printf("%.17f, iteration %d\n",x,i);
+    printf("%.17f, iteration %d\n",x,i);
   }
-  //x = (x*x*x + 3.0f*a*x)/(3.0f*x*x + a);
   return x;
 }
 
-float hnsqrt(float a) { // Halley's Method w/ 2 iterations of Newton's Method
+// Halley's Method w/ 2 iterations of Newton's Method
+float hnsqrt(float a) {
   if (a == 0.0f) { return 0.0f; } else if (a < 0.0f) { return -1.0f; }
   unsigned short int i;
-  float x = (1 + 3.0f*a)/(3.0f + a);
-  for (i = 0; i < 4; i++)
-  {
+  float x = (1.0f + 3.0f*a)/(3.0f + a);
+  // In my testing, 4 iterations is enough; this will run 5 iterations.
+  for (i = 0; i < 4; i++) {
     x = (x*x*x + 3.0f*a*x)/(3.0f*x*x + a);
-    //printf("%.17f, iteration %d (Halley)\n",x,i);
     x = 0.5f * ( x + (a/x) );
-    //printf("%.17f, iteration %d (Newton 1)\n",x,i);
     x = 0.5f * ( x + (a/x) );
-    //printf("%.17f, iteration %d (Newton 2)\n",x,i);
   }
   return x;
 }
 
-int main() {
-  const float num = (3*3 + 4*3);
-  float in = nsqrt(num);
-
-  printf("%f\n",in);
-}
+int main() {}
