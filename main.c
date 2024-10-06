@@ -1,7 +1,10 @@
-#include <stdio.h>
+/// Self-made math functions
 
 // Primitive Float ABsolute Value
-float pfabs(float x) { if (x < 0.0f) { return x + x*-2.0f; } else { return x; } }
+float pfabs(float x) {
+  if (x < 0.0f) { return x + x*-2.0f; }
+  else { return x; }
+}
 
 // Integer POWer
 float ipow(float x, int n) {
@@ -9,19 +12,6 @@ float ipow(float x, int n) {
   float y = (n < 0) ? 1.0f/x : x;
   float result = 1.0f;
   for (i = 0; i < pfabs(n); i++) { result *= y; }
-  return result;
-}
-
-unsigned long long int factorial(int x) {
-  if (x > 20) { return 0; }
-  /* Numbers over 20 exceed the 64 bit unsigned integer's maximum value.
-    0! will return 1, so by returning 0 a programmer will [have to]
-    know that they inputted an unsupported value. */
-  unsigned long long int result = 1;
-  unsigned short int i;
-  for (i = 0; i < x; i++) {
-    result *= (x - i);
-  }
   return result;
 }
 
@@ -34,7 +24,6 @@ float nsqrt(float a) {
   float x = (1.0f + 3.0f*a)/(3.0f + a);
   for (i = 0; i < 16; i++) {
     x = 0.5f * ( x + (a/x) );
-    printf("%.17f, iteration %d\n",x,i);
   }
   return x;
 }
@@ -53,4 +42,3 @@ float hnsqrt(float a) {
   return x;
 }
 
-int main() {}
