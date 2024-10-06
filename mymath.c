@@ -1,5 +1,16 @@
 /// Self-made math functions
 
+// Greatest Common Divisor
+int gcd(int a, int b) {
+  int t = 0;
+  while (b != 0) {
+    t = b;
+    b = (a % b);
+    a = t;
+  }
+  return a;
+}
+
 // Primitive Float ABsolute Value
 float pfabs(float x) {
   if (x < 0.0f) { return x + x*-2.0f; }
